@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="MainActivity">
+
+    <!-- Puedes ajustar el diseño según tus necesidades -->
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <RelativeLayout
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:gravity="center">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:indeterminateTint="#6FACA1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleLarge"/>
+
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Bienvenido, por favor espere..."
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+</RelativeLayout>
+
+</RelativeLayout>
