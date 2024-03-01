@@ -1,36 +1,30 @@
 package com.example.appmovilsimuladorweb
-import WebAppInterface
+
 import android.app.NotificationManager
-import android.app.ProgressDialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.webkit.ConsoleMessage
-import android.webkit.JavascriptInterface
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var webView: WebView
-
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private lateinit var apiService: ApiService
 
@@ -66,61 +60,21 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        webView = findViewById(R.id.webView)
-        val webSettings: WebSettings = webView.settings
+        val url = "https://cuidacontic.talionis.eu:3000/"
+        val intent = CustomTabsIntent.Builder()
+            .setShowTitle(false)
+            .setUrlBarHidingEnabled(true)
+            .build()
+        intent.launchUrl(this@MainActivity, Uri.parse(url))
 
-        // Habilitar JavaScript (si es necesario)
-        webSettings.javaScriptEnabled = true
+        val customTabsCallback = onCustomTabsClosed()
 
-        // Habilitar el almacenamiento DOM (que incluye localStorage)
-        webSettings.domStorageEnabled = true
-        webSettings.userAgentString = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.90 Mobile Safari/537.36"
 
-        webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-
-        // Configurar el WebViewClient para manejar eventos de carga
-        webView.webViewClient = object : WebViewClient() {
-
-            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                // Muestra la pantalla de carga al comenzar la carga de la página
-                showLoadingScreen()
-            }
-
-            override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
-
-                Log.d("WebView", "Página cargada: $url")
-
-                hideLoadingScreen()
-            }
-        }
-
-        val webAppInterface = WebAppInterface(this)
-        webView.addJavascriptInterface(webAppInterface, "AndroidInterface")
-
-        // Cargar la URL principal después de cargar la API de Google
-        //SI NO FUNCIONA CARGAR PAGINA /login
-        webView.loadUrl("https://cuidacontic.talionis.eu:3000/")
 
     }
 
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            // Si hay historial de navegación en el WebView, retrocede una página
-            webView.goBack()
-        } else {
-            // Si no hay historial de navegación, permite que el comportamiento predeterminado maneje el botón de retroceso
-            super.onBackPressed()
-        }
-    }
-
-    private fun showLoadingScreen() {
-        loadingLayout.visibility = View.VISIBLE
-    }
-
-    private fun hideLoadingScreen() {
-        loadingLayout.visibility = View.GONE
+    private fun onCustomTabsClosed() {
+        finish()
     }
 
     private fun shouldRequestNotificationPermission(context: Context): Boolean {
@@ -167,3 +121,5 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
+

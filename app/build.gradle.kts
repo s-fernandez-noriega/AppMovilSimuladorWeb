@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-
+    implementation ("androidx.browser:browser:1.5.0")
     implementation ("androidx.work:work-runtime:2.7.0")
     implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
     implementation("com.google.android.material:material:1.10.0")
