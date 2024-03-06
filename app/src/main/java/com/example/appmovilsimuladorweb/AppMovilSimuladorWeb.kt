@@ -37,6 +37,7 @@ class AppMovilSimuladorWeb : Application() {
             .build()
 
         workManager.enqueue(notificationWorkRequest)
+
     }
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
