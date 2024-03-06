@@ -1,6 +1,7 @@
 package com.example.appmovilsimuladorweb
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
@@ -28,9 +29,7 @@ class EmailFormActivity : AppCompatActivity() {
 
             // Guardar el correo electrónico en SharedPreferences
             saveEmailToSharedPreferences(email)
-
-            // Finalizar la actividad
-            finish()
+            
         }
     }
 
@@ -49,6 +48,11 @@ class EmailFormActivity : AppCompatActivity() {
         val storedEmail: String? = sharedPreferences.getString("email", null)
 
         Toast.makeText(this, "Correo electrónico almacenado: $storedEmail", Toast.LENGTH_SHORT).show()
+
+        // Iniciar la MainActivity
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish() // Finalizar la actividad actual
 
     }
 }
