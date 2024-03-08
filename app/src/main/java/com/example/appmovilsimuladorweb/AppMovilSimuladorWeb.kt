@@ -31,7 +31,7 @@ class AppMovilSimuladorWeb : Application() {
             .build()
 
         val notificationWorkRequest = PeriodicWorkRequest.Builder(
-            NotificationWorker::class.java, 1, TimeUnit.MINUTES
+            NotificationWorker::class.java, 15, TimeUnit.MINUTES
         )
             .setConstraints(constraints)
             .addTag(NotificationWorker.WORK_TAG) // Agrega la etiqueta al trabajo

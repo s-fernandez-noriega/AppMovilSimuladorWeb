@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         val url = if (fromNotification) "https://cuidacontic.talionis.eu:3000/misAvisos" else "https://cuidacontic.talionis.eu:3000/login"
 
         val intent = CustomTabsIntent.Builder(customTabsSession)
-            .setShowTitle(false)
+            .setShowTitle(true)
             .setUrlBarHidingEnabled(true)
             .build()
         intent.launchUrl(this@MainActivity, Uri.parse(url))
