@@ -38,6 +38,8 @@ class NotificationWorker(
 
             val email = sharedPreferences.getString("email", null)
 
+            Log.d("CONSULTA NOTIFICACIONES", "Email: $email" )
+
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://backend.talionis.eu:8443")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -76,7 +78,7 @@ class NotificationWorker(
 
                 return Result.success()
             } else {
-                Log.d("CONSULTA NOTIFICACIONES", "Error en la consulta")
+                Log.d("CONSULTA NOTIFICACIONES", "Error en la consulta: $response")
                 return Result.failure()
             }
         } catch (e: IOException) {
@@ -105,7 +107,7 @@ class NotificationWorker(
 
         // Construir la notificación
         val notificationBuilder = NotificationCompat.Builder(applicationContext, channelId)
-            .setSmallIcon(R.drawable.logotalionis)
+            .setSmallIcon(R.drawable.cuidacontic_logo)
             .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
