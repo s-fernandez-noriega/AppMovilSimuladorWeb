@@ -33,7 +33,7 @@ class EmailFormActivity : AppCompatActivity() {
         // Configurar clic del botón guardar
         saveButton.setOnClickListener {
             // Obtener el correo electrónico ingresado por el usuario
-            val email = emailEditText.text.toString()
+            val email = emailEditText.text.toString().trim()
 
             // Realizar la llamada para verificar el email
             checkEmailOnServer(email)
