@@ -38,7 +38,6 @@ android {
 
 dependencies {
     implementation ("androidx.browser:browser:1.5.0")
-    implementation ("androidx.work:work-runtime:2.7.0")
     implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -51,6 +50,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
-
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
 
 }

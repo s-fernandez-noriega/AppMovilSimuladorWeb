@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit
 
 class AppMovilSimuladorWeb : Application() {
 
+    @SuppressLint("InvalidPeriodicWorkRequestInterval")
     override fun onCreate() {
         super.onCreate()
 
@@ -30,7 +31,7 @@ class AppMovilSimuladorWeb : Application() {
             .build()
 
         val notificationWorkRequest = PeriodicWorkRequest.Builder(
-            NotificationWorker::class.java, 15, TimeUnit.MINUTES
+            NotificationWorker::class.java, 1, TimeUnit.MINUTES
         )
             .setConstraints(constraints)
             .addTag(NotificationWorker.WORK_TAG) // Agrega la etiqueta al trabajo
@@ -45,7 +46,7 @@ class AppMovilSimuladorWeb : Application() {
             val channelName = "Channel Name"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(channelId, channelName, importance)
-            val notificationManager = getSystemService(NotificationManager::class.java)
+            val notificationManager : NotificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
     }

@@ -6,11 +6,11 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import androidx.work.Worker
-import androidx.work.WorkerParameters
-import com.google.gson.JsonParser
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import com.google.gson.JsonParser
 import com.example.appmovilsimuladorweb.ApiService
 import com.example.appmovilsimuladorweb.MainActivity
 import com.example.appmovilsimuladorweb.R
@@ -21,7 +21,7 @@ import java.io.IOException
 class NotificationWorker(
     context: Context,
     params: WorkerParameters
-) : Worker(context, params) {
+) : CoroutineWorker(context, params) {
 
     companion object {
         const val WORK_TAG = "notification_work"
@@ -32,8 +32,7 @@ class NotificationWorker(
         Context.MODE_PRIVATE
     )
 
-
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         try {
             Log.d("CONSULTA NOTIFICACIONES", "Worker iniciado")
 
@@ -89,7 +88,6 @@ class NotificationWorker(
         }
     }
 
-
     private fun showNotification(text: String) {
         val channelId = "notification_channel"
 
@@ -98,8 +96,12 @@ class NotificationWorker(
             // Pasa información adicional que indique que la aplicación se abrió desde una notificación
             putExtra("fromNotification", true)
         }
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent,
-            PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         // Construir la notificación
         val notificationBuilder = NotificationCompat.Builder(applicationContext, channelId)
@@ -124,5 +126,4 @@ class NotificationWorker(
             Log.d("NOTIFICACION", "Notificación enviada")
         }
     }
-
 }
