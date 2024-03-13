@@ -95,9 +95,22 @@ class MainActivity : AppCompatActivity() {
 
         val fromNotification = intent.getBooleanExtra("fromNotification", false)
 
+        // Crea un Intent para la actividad EmailFormActivity
+        val emailFormIntent = Intent(this, EmailFormActivity::class.java)
+
+        // Crea un PendingIntent con el Intent de la actividad EmailFormActivity
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            emailFormIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
         val url = if (fromNotification) "https://cuidacontic.talionis.eu/misAvisos" else "https://cuidacontic.talionis.eu/login"
 
+
         val intent = CustomTabsIntent.Builder(customTabsSession)
+            .addMenuItem(getString(R.string.cambiar_email_notificaciones), pendingIntent)
             .setShowTitle(true)
             .setUrlBarHidingEnabled(true)
             .build()

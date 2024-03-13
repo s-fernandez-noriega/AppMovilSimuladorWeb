@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CuidaconTIC</string>
+    <string name="cambiar_email_notificaciones">Cambiar email notificaciones</string>
 </resources>
