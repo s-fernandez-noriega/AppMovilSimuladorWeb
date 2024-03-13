@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
         val fromNotification = intent.getBooleanExtra("fromNotification", false)
 
-        val url = if (fromNotification) "https://cuidacontic.talionis.eu:3000/misAvisos" else "https://cuidacontic.talionis.eu:3000/login"
+        val url = if (fromNotification) "https://cuidacontic.talionis.eu/misAvisos" else "https://cuidacontic.talionis.eu/login"
 
         val intent = CustomTabsIntent.Builder(customTabsSession)
             .setShowTitle(true)
