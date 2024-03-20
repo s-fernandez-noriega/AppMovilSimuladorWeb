@@ -98,12 +98,12 @@ class MainActivity : AppCompatActivity() {
         // Crea un Intent para la actividad EmailFormActivity
         val emailFormIntent = Intent(this, EmailFormActivity::class.java)
 
-        // Crea un PendingIntent con el Intent de la actividad EmailFormActivity
+        //Crea un PendingIntent con el Intent de la actividad EmailFormActivity
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
             emailFormIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val url = if (fromNotification) "https://cuidacontic.talionis.eu/misAvisos" else "https://cuidacontic.talionis.eu/login"
