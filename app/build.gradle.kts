@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.appmovilsimuladorweb"
+    namespace = "com.talionis.appmovilsimuladorweb"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.appmovilsimuladorweb"
+        applicationId = "com.talionis.appmovilsimuladorweb"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
