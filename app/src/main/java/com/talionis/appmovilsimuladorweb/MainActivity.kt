@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loadingText: TextView
 
     private var customTabsSession: CustomTabsSession? = null
+    private var isServiceBound = false
 
     private val connection = object : CustomTabsServiceConnection() {
         override fun onCustomTabsServiceConnected(
@@ -44,10 +45,12 @@ class MainActivity : AppCompatActivity() {
         ) {
             // Establece la CustomTabsSession
             customTabsSession = client.newSession(null)
+            isServiceBound = true
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             customTabsSession = null
+            isServiceBound = false
         }
     }
 
@@ -108,7 +111,6 @@ class MainActivity : AppCompatActivity() {
 
         val url = if (fromNotification) "https://cuidacontic.talionis.eu/misAvisos" else "https://cuidacontic.talionis.eu/login"
 
-
         val intent = CustomTabsIntent.Builder(customTabsSession)
             .addMenuItem(getString(R.string.cambiar_email_notificaciones), pendingIntent)
             .setShowTitle(true)
@@ -167,7 +169,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Detiene la conexión con el servicio de Chrome Custom Tabs
-        unbindService(connection)
+        // Detiene la conexión con el servicio de Chrome Custom Tabs solo si está enlazado
+        if (isServiceBound) {
+            unbindService(connection)
+            isServiceBound = false
+        }
     }
 }
