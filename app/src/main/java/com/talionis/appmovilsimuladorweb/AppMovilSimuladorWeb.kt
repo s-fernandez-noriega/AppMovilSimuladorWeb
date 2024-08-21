@@ -1,53 +1,34 @@
 package com.talionis.appmovilsimuladorweb
-import NotificationWorker
-import android.annotation.SuppressLint
+
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.os.Build
-import android.util.Log
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+import com.onesignal.OneSignal
+import com.onesignal.debug.LogLevel
+
+// NOTE: Replace the below with your own ONESIGNAL_APP_ID
+const val ONESIGNAL_APP_ID = "070816bb-2c78-492c-b6d2-5a123a206c3c"
 
 class AppMovilSimuladorWeb : Application() {
-
-    @SuppressLint("InvalidPeriodicWorkRequestInterval")
-    override fun onCreate() {
+        override fun onCreate() {
         super.onCreate()
 
-        Log.d("AppMovilSimuladorWeb", "AppMovilSimuladorWeb iniciada")
+        // Verbose Logging set to help debug issues, remove before releasing your app.
+        OneSignal.Debug.logLevel = LogLevel.VERBOSE
 
-        createNotificationChannel()
+        // OneSignal Initialization
+        OneSignal.initWithContext(this, ONESIGNAL_APP_ID)
 
-        val workManager = WorkManager.getInstance(applicationContext)
-        workManager.cancelAllWorkByTag(NotificationWorker.WORK_TAG)
+        // requestPermission will show the native Android notification permission prompt.
+        // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
+        CoroutineScope(Dispatchers.IO).launch {
+        OneSignal.Notifications.requestPermission(false)
 
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED) // Requiere conexión a Internet
-            .build()
-
-        val notificationWorkRequest = PeriodicWorkRequest.Builder(
-            NotificationWorker::class.java, 15, TimeUnit.MINUTES
-        )
-            .setConstraints(constraints)
-            .addTag(NotificationWorker.WORK_TAG) // Agrega la etiqueta al trabajo
-            .build()
-
-        workManager.enqueue(notificationWorkRequest)
-
-    }
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "notification_channel"
-            val channelName = "Channel Name"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, channelName, importance)
-            val notificationManager : NotificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
         }
-    }
+        }
 
-}
+
+        }
+

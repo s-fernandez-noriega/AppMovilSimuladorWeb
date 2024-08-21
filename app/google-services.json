@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "638682959838",
+    "project_id": "cuidacontic",
+    "storage_bucket": "cuidacontic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638682959838:android:f6b8510dc6cc3412fc574f",
+        "android_client_info": {
+          "package_name": "com.talionis.appmovilsimuladorweb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVGpOkzpsCnDpZ3KZOTv61ZMklqUx6iSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

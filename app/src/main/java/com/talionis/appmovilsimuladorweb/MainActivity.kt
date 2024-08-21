@@ -27,10 +27,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.onesignal.OneSignal
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var apiService: ApiService
     private lateinit var loadingLayout: RelativeLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var loadingText: TextView
@@ -77,26 +77,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         val storedEmail: String? = sharedPreferences.getString("email", null)
-        Toast.makeText(this, "Correo electrónico almacenado: $storedEmail", Toast.LENGTH_SHORT).show()
+        if (storedEmail != null) {
+            // Asocia el correo electrónico con el usuario actual
+            //OneSignal.User.addEmail(storedEmail)
+            OneSignal.login(storedEmail)
+            Toast.makeText(this, "Correo electrónico almacenado: $storedEmail "+  OneSignal.User.onesignalId , Toast.LENGTH_SHORT).show()
+
+        } else {
+            Toast.makeText(this, "No se encontró correo electrónico almacenado.", Toast.LENGTH_SHORT).show()
+        }
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://backend.talionis.eu:8443")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        apiService = retrofit.create(ApiService::class.java)
 
-        Log.d("NOTIFICACION", "Comprobar solicitud permisos notificaciones necesario: " + shouldRequestNotificationPermission(this))
 
-        if (shouldRequestNotificationPermission(this)) {
-            Log.d("NOTIFICACION", "Solicitud de permisos necesaria")
-            requestNotificationPermission()
-        }
 
         // Inicia la conexión con el servicio de Chrome Custom Tabs
         CustomTabsClient.bindCustomTabsService(this, packageName, connection)
 
-        val fromNotification = intent.getBooleanExtra("fromNotification", false)
 
         // Crea un Intent para la actividad EmailFormActivity
         val emailFormIntent = Intent(this, EmailFormActivity::class.java)
@@ -109,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        val url = if (fromNotification) "https://cuidacontic.talionis.eu/misAvisos" else "https://cuidacontic.talionis.eu/login"
+        val url = "https://cuidacontic.talionis.eu/Login"
 
         val intent = CustomTabsIntent.Builder(customTabsSession)
             .addMenuItem(getString(R.string.cambiar_email_notificaciones), pendingIntent)
@@ -125,47 +126,9 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun shouldRequestNotificationPermission(context: Context): Boolean {
-        val notificationManager = ContextCompat.getSystemService(
-            context,
-            NotificationManager::class.java
-        )
-        val isEnabled = notificationManager?.areNotificationsEnabled()
-        return !isEnabled!!
-    }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun requestNotificationPermission() {
-        // Define un código para identificar la solicitud de permiso
-        val notificationPermissionCode = 123
 
-        // Verifica si se necesitan permisos y solicítalos
-        if (ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d("NOTIFICACION", "Solicitud de permisos necesaria 2")
-            // Si no se tienen permisos, solicita los permisos
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                notificationPermissionCode
-            )
 
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                notificationPermissionCode
-            )
-        } else {
-            // Los permisos ya están concedidos, puedes realizar las acciones necesarias
-        }
-
-        // Actualiza la preferencia para indicar que se ha solicitado el permiso
-        val preferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        preferences.edit().putBoolean("notification_permission_requested", true).apply()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
