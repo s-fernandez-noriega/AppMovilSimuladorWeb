@@ -82,7 +82,8 @@ class EmailFormActivity : AppCompatActivity() {
                     "Error al conectar con el servidor",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
+// Imprimir el error en el Logcat
+                Log.e("API_CALL_ERROR", "Error en la solicitud: ${t.message}", t)            }
         })
     }
 
