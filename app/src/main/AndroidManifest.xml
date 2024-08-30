@@ -24,7 +24,7 @@
         android:theme="@style/Theme.AppMovilSimuladorWeb"
         android:usesCleartextTraffic="true"
 
-        tools:targetApi="31">
+        tools:targetApi="34">
         <meta-data android:name="onesignal_app_id" android:value="########-####-####-####-############" />
         <meta-data android:name="onesignal_google_project_number" android:value="str:REMOTE" />
         <activity
