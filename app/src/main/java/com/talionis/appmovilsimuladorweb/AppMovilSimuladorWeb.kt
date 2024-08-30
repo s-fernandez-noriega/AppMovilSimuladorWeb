@@ -9,7 +9,7 @@ import com.onesignal.OneSignal
 import com.onesignal.debug.LogLevel
 
 // NOTE: Replace the below with your own ONESIGNAL_APP_ID
-const val ONESIGNAL_APP_ID = "070816bb-2c78-492c-b6d2-5a123a206c3c"
+const val ONESIGNAL_APP_ID = "e6233f86-bca7-4a44-b096-8aa73f3d374d"
 
 class AppMovilSimuladorWeb : Application() {
         override fun onCreate() {
