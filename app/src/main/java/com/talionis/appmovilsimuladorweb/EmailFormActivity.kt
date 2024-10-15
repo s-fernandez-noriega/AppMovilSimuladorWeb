@@ -6,11 +6,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.talionis.appmovilsimuladorweb.EmailRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,6 +40,21 @@ class EmailFormActivity : AppCompatActivity() {
             // Realizar la llamada para verificar el email
             checkEmailOnServer(email)
         }
+
+        // Detectar cuando se presiona "Enter" o "Hecho" en el teclado
+        emailEditText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Obtener el correo electrónico ingresado por el usuario
+                val email = emailEditText.text.toString().trim()
+
+                // Realizar la llamada para verificar el email
+                checkEmailOnServer(email)
+
+                true // Indica que el evento ha sido manejado
+            } else {
+                false // Permitir que otros manejadores lo procesen
+            }
+        })
 
         // Configurar Retrofit
         val retrofit = Retrofit.Builder()
@@ -82,11 +98,11 @@ class EmailFormActivity : AppCompatActivity() {
                     "Error al conectar con el servidor",
                     Toast.LENGTH_SHORT
                 ).show()
-// Imprimir el error en el Logcat
-                Log.e("API_CALL_ERROR", "Error en la solicitud: ${t.message}", t)            }
+                // Imprimir el error en el Logcat
+                Log.e("API_CALL_ERROR", "Error en la solicitud: ${t.message}", t)
+            }
         })
     }
-
 
     private fun saveEmailLocally(email: String) {
         // Guardar el correo electrónico en SharedPreferences
