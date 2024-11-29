@@ -58,7 +58,7 @@ class EmailFormActivity : AppCompatActivity() {
 
         // Configurar Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://backend.talionis.eu:8443")
+            .baseUrl("https://cuidacontic.citic.udc.es/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

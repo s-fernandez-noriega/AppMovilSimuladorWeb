@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://backend.talionis.eu:8443")
+            .baseUrl("https://cuidacontic.citic.udc.es/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        val url = "https://cuidacontic.talionis.eu/Login"
+        val url = "https://cuidacontic.citic.udc.es/Login"
 
         val intent = CustomTabsIntent.Builder(customTabsSession)
             .addMenuItem(getString(R.string.cambiar_email_notificaciones), pendingIntent)
